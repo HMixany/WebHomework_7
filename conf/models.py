@@ -24,7 +24,7 @@ class Teacher(Base):
 class Group(Base):
     __tablename__ = 'groups'
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(20), nullable=False)
+    name = Column(String(20), nullable=False)
     students = relationship('Student', back_populates='group')
 
 
@@ -33,7 +33,7 @@ class Student(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(120), nullable=False)
     last_name = Column(String(120), nullable=False)
-    group_id = Column('group_id', ForeignKey('groups_id', ondelete='CASCADE'))
+    group_id = Column('group_id', ForeignKey('groups.id', ondelete='CASCADE'))
     group = relationship('Group', back_populates='students')
 
     grade = relationship('Grade', back_populates='student')
@@ -50,7 +50,7 @@ class Subject(Base):
     __tablename__ = 'subjects'
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
-    teacher_id = Column('teacher_id', ForeignKey('teachers_id', ondelete='CASCADE'))
+    teacher_id = Column('teacher_id', ForeignKey('teachers.id', ondelete='CASCADE'))
     teacher = relationship('Teacher', back_populates='subjects')
     grade = relationship('Grade', back_populates='subject')
 
@@ -60,7 +60,7 @@ class Grade(Base):
     id = Column(Integer, primary_key=True)
     grade = Column(Integer, nullable=False)
     grade_date = Column('grade_date', Date, nullable=True)
-    student_id = Column('student_id', ForeignKey('students_id', ondelete='CASCADE'))
-    subject_id = Column('subject_id', ForeignKey('subjects_id', ondelete='CASCADE'))
+    student_id = Column('student_id', ForeignKey('students.id', ondelete='CASCADE'))
+    subject_id = Column('subject_id', ForeignKey('subjects.id', ondelete='CASCADE'))
     student = relationship('Student', back_populates='grade')
     subject = relationship('Subject', back_populates='grade')
