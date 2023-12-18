@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Date
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 
 Base = declarative_base()
@@ -10,10 +10,7 @@ class Teacher(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(120), nullable=False)
     last_name = Column(String(120), nullable=False)
-
     subjects = relationship('Subject', back_populates='teacher')
-
-    # student = relationship('Student', back_populates='teacher')
 
     # створемо гібридне(віртуальне) поле
     @hybrid_property
@@ -35,10 +32,7 @@ class Student(Base):
     last_name = Column(String(120), nullable=False)
     group_id = Column('group_id', ForeignKey('groups.id', ondelete='CASCADE'))
     group = relationship('Group', back_populates='students')
-
     grade = relationship('Grade', back_populates='student')
-
-    # student = relationship('Student', secondary='teachers_to_students', back_populates='teacher')
 
     # створемо гібридне(віртуальне) поле
     @hybrid_property
